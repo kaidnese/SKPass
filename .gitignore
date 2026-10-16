@@ -1,0 +1,24 @@
+# Generated build trees and downloaded dependencies
+**/build/
+**/build-*/
+esp32/managed_components/
+**/sdkconfig.old
+**/CMakeUserPresets.json
+**/.venv/
+**/__pycache__/
+**/*.pyc
+**/*-runtime/
+**/*.log
+# Never publish personal cards, logs or game configuration
+**/cards.json
+**/cards-*.json
+**/segatools.ini
+**/segatools.ini.*
+**/*.csv
+!esp32/partitions.csv
+.vscode/
+.idea/
+# Explicit release artifacts in releases/ are intentional.
+desktop/tools/esptool/esptool/
+**/*.bak
+**/backup_*/

@@ -1,0 +1,82 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="pcbBg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#0f2b38"/>
+      <stop offset="70%" stop-color="#081820"/>
+      <stop offset="100%" stop-color="#030a0d"/>
+    </radialGradient>
+    <linearGradient id="goldTrace" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="50%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="chipMatte" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#27272a"/>
+      <stop offset="100%" stop-color="#18181b"/>
+    </linearGradient>
+    <filter id="coreGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="0" stdDeviation="12" flood-color="#0ea5e9" flood-opacity="0.9"/>
+    </filter>
+  </defs>
+
+  <rect x="24" y="24" width="464" height="464" rx="104" fill="url(#pcbBg)"/>
+  <rect x="24" y="24" width="464" height="464" rx="104" fill="none" stroke="#0ea5e9" stroke-opacity="0.3" stroke-width="2"/>
+
+  <!-- Concentric NFC Antenna Coils (Concentric rounded squares) -->
+  <g fill="none" stroke="url(#goldTrace)" stroke-linecap="round">
+    <rect x="80" y="80" width="352" height="352" rx="48" stroke-width="4.5" opacity="0.95"/>
+    <rect x="100" y="100" width="312" height="312" rx="40" stroke-width="4" opacity="0.8"/>
+    <rect x="120" y="120" width="272" height="272" rx="32" stroke-width="3.5" opacity="0.65"/>
+    <rect x="140" y="140" width="232" height="232" rx="24" stroke-width="3" opacity="0.5"/>
+  </g>
+
+  <!-- Corner Via test pads -->
+  <g fill="#38bdf8" opacity="0.8">
+    <circle cx="80" cy="120" r="4.5"/>
+    <circle cx="432" cy="120" r="4.5"/>
+    <circle cx="80" cy="392" r="4.5"/>
+    <circle cx="432" cy="392" r="4.5"/>
+  </g>
+
+  <!-- Central Microcontroller / PN7150 Chip -->
+  <g transform="translate(196, 196)" filter="url(#coreGlow)">
+    <!-- Chip Body -->
+    <rect x="0" y="0" width="120" height="120" rx="14" fill="url(#chipMatte)" stroke="#52525b" stroke-width="2"/>
+    
+    <!-- Chip Pins on 4 sides -->
+    <g fill="#a1a1aa">
+      <!-- Top pins -->
+      <rect x="25" y="-8" width="6" height="8" rx="1"/>
+      <rect x="45" y="-8" width="6" height="8" rx="1"/>
+      <rect x="65" y="-8" width="6" height="8" rx="1"/>
+      <rect x="85" y="-8" width="6" height="8" rx="1"/>
+      <!-- Bottom pins -->
+      <rect x="25" y="120" width="6" height="8" rx="1"/>
+      <rect x="45" y="120" width="6" height="8" rx="1"/>
+      <rect x="65" y="120" width="6" height="8" rx="1"/>
+      <rect x="85" y="120" width="6" height="8" rx="1"/>
+      <!-- Left pins -->
+      <rect x="-8" y="25" width="8" height="6" rx="1"/>
+      <rect x="-8" y="45" width="8" height="6" rx="1"/>
+      <rect x="-8" y="65" width="8" height="6" rx="1"/>
+      <rect x="-8" y="85" width="8" height="6" rx="1"/>
+      <!-- Right pins -->
+      <rect x="120" y="25" width="8" height="6" rx="1"/>
+      <rect x="120" y="45" width="8" height="6" rx="1"/>
+      <rect x="120" y="65" width="8" height="6" rx="1"/>
+      <rect x="120" y="85" width="8" height="6" rx="1"/>
+    </g>
+
+    <!-- Dot index 1 -->
+    <circle cx="18" cy="18" r="4" fill="#71717a"/>
+
+    <!-- Glowing NFC wireless icon embossed on chip center -->
+    <g transform="translate(60, 60)">
+      <circle cx="0" cy="0" r="6" fill="#38bdf8"/>
+      <path d="M -9 -9 A 14 14 0 0 1 9 -9" fill="none" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/>
+      <path d="M -16 -16 A 24 24 0 0 1 16 -16" fill="none" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/>
+    </g>
+
+    <text x="60" y="98" font-family="Consolas, monospace" font-size="11" font-weight="700" fill="#38bdf8" text-anchor="middle" letter-spacing="1">SK·NFC</text>
+  </g>
+</svg>

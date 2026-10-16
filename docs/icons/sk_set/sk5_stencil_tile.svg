@@ -1,0 +1,56 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bg5" cx="50%" cy="40%" r="75%">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="60%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </radialGradient>
+    <linearGradient id="tileGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <filter id="glow5" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#2563eb" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+
+  <rect x="24" y="24" width="464" height="464" rx="108" fill="url(#bg5)"/>
+  <rect x="24" y="24" width="464" height="464" rx="108" fill="none" stroke="#3b82f6" stroke-opacity="0.3" stroke-width="2"/>
+
+  <!-- Rounded App Card Container with Negative Space SK -->
+  <g transform="translate(116, 100)" filter="url(#glow5)">
+    <!-- Base Solid Card Tile -->
+    <rect x="0" y="0" width="280" height="280" rx="48" fill="url(#tileGrad)" stroke="#60a5fa" stroke-width="3"/>
+
+    <!-- Glossy Highlight Diagonal -->
+    <path d="M 0 0 L 160 0 L 0 160 Z" fill="#ffffff" fill-opacity="0.12"/>
+
+    <!-- Negative Space / Pure White 'S' & 'K' Stencil -->
+    <g fill="none" stroke="#ffffff" stroke-width="24" stroke-linecap="round" stroke-linejoin="round">
+      <!-- 'S' Stencil -->
+      <path d="M 105 75 
+               L 65 75 
+               A 25 25 0 0 0 40 100 
+               L 40 120 
+               A 25 25 0 0 0 65 145 
+               L 85 145 
+               A 25 25 0 0 1 110 170 
+               L 110 190 
+               A 25 25 0 0 1 85 215 
+               L 45 215"/>
+
+      <!-- 'K' Stencil -->
+      <line x1="145" y1="75" x2="145" y2="215"/>
+      <path d="M 155 145 L 210 75"/>
+      <path d="M 155 145 L 210 215"/>
+    </g>
+
+    <!-- Glowing NFC Arcs cut into the top right corner of the tile -->
+    <g transform="translate(215, 60)">
+      <path d="M 12 0 A 18 18 0 0 1 12 36" fill="none" stroke="#fef08a" stroke-width="6" stroke-linecap="round"/>
+      <path d="M 26 -10 A 34 34 0 0 1 26 46" fill="none" stroke="#fef08a" stroke-width="6" stroke-linecap="round" stroke-opacity="0.75"/>
+    </g>
+  </g>
+
+  <text x="256" y="445" font-family="Segoe UI, sans-serif" font-weight="800" font-size="20" fill="#ffffff" letter-spacing="6" text-anchor="middle">SKPASS</text>
+</svg>

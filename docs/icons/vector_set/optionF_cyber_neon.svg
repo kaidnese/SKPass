@@ -1,0 +1,37 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="cyanGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#00f2fe" flood-opacity="0.9"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="20" flood-color="#4facfe" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- Deep Obsidian Black Background -->
+  <rect x="24" y="24" width="464" height="464" rx="104" fill="#080c14"/>
+  <rect x="24" y="24" width="464" height="464" rx="104" fill="none" stroke="#00f2fe" stroke-opacity="0.3" stroke-width="1.5"/>
+
+  <!-- Isometric/Angled Minimalist Neon Card Wireframe -->
+  <g transform="translate(256,245) rotate(-10) translate(-160,-100)" filter="url(#cyanGlow)">
+    <!-- Outer Card Glow Edge -->
+    <rect x="0" y="0" width="320" height="200" rx="16" fill="#0d1527" fill-opacity="0.75" stroke="#00f2fe" stroke-width="3.5"/>
+    
+    <!-- Neon Chip Wireframe -->
+    <g transform="translate(40, 70)">
+      <rect x="0" y="0" width="55" height="45" rx="6" fill="#06182c" stroke="#38bdf8" stroke-width="2.5"/>
+      <line x1="0" y1="22" x2="55" y2="22" stroke="#38bdf8" stroke-width="2"/>
+      <line x1="20" y1="0" x2="20" y2="45" stroke="#38bdf8" stroke-width="2"/>
+      <line x1="36" y1="0" x2="36" y2="45" stroke="#38bdf8" stroke-width="2"/>
+    </g>
+
+    <!-- Concentric Radio Beam Arcs -->
+    <g transform="translate(250, 65)">
+      <circle cx="0" cy="35" r="5" fill="#00f2fe"/>
+      <path d="M 0 15 A 20 20 0 0 1 0 55" fill="none" stroke="#00f2fe" stroke-width="4" stroke-linecap="round"/>
+      <path d="M 12 0 A 38 38 0 0 1 12 70" fill="none" stroke="#00f2fe" stroke-width="4" stroke-linecap="round"/>
+      <path d="M 24 -15 A 56 56 0 0 1 24 85" fill="none" stroke="#00f2fe" stroke-width="3" stroke-linecap="round" stroke-opacity="0.7"/>
+    </g>
+
+    <!-- Glowing Tech Font -->
+    <text x="40" y="170" font-family="Consolas, monospace" font-size="22" font-weight="700" fill="#ffffff" letter-spacing="4">SK·PASS</text>
+  </g>
+</svg>

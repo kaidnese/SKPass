@@ -1,0 +1,9 @@
+{
+  "folders": [
+    {"name":"SKPass · ESP32", "path":"esp32"},
+    {"name":"SKPass · 上位机", "path":"desktop"},
+    {"name":"SKPass · AimeIO", "path":"aimeio"},
+    {"name":"SKPass · HID 调试", "path":"host-test"},
+    {"name":"SKPass · 文档与发行", "path":"."}
+  ]
+}

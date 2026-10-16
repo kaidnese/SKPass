@@ -1,0 +1,8 @@
+<RCC><qresource prefix="/aimeio">
+<file alias="x64.dll">../../releases/v1.0/aimeio/x64/aimeio_skpass.dll</file>
+<file alias="x86.dll">../../releases/v1.0/aimeio/x86/aimeio_skpass.dll</file>
+</qresource>
+<qresource prefix="/icons">
+<file alias="app.ico">app.ico</file>
+<file alias="app.png">app.png</file>
+</qresource></RCC>

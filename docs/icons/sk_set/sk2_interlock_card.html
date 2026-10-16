@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: transparent; display: flex; align-items: center; justify-content: center; width: 512px; height: 512px; }
+  </style>
+</head>
+<body>
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="50%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#090d16"/>
+    </linearGradient>
+    <linearGradient id="blueCore" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="50%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <filter id="glow2" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="15" flood-color="#0ea5e9" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <rect x="24" y="24" width="464" height="464" rx="108" fill="url(#bg2)"/>
+  <rect x="24" y="24" width="464" height="464" rx="108" fill="none" stroke="#6366f1" stroke-opacity="0.3" stroke-width="2"/>
+
+  <!-- Interlocking SK Shape inside an invisible smartcard proportion -->
+  <g transform="translate(106, 110)" filter="url(#glow2)">
+    <!-- 'S' as two interlocking rounded bracket hooks -->
+    <path d="M 120 50 L 60 50 A 40 40 0 0 0 20 90 L 20 120 A 40 40 0 0 0 60 160 L 90 160 A 40 40 0 0 1 130 200 L 130 230 A 40 40 0 0 1 90 270 L 20 270"
+          fill="none" stroke="url(#blueCore)" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- 'K' formed by a vertical column + two angled pass blades -->
+    <line x1="175" y1="50" x2="175" y2="270" stroke="#ffffff" stroke-width="30" stroke-linecap="round"/>
+    
+    <!-- K Upper Blade -->
+    <path d="M 195 150 L 275 60" stroke="url(#blueCore)" stroke-width="30" stroke-linecap="round"/>
+    <!-- K Lower Blade -->
+    <path d="M 195 170 L 275 270" stroke="url(#blueCore)" stroke-width="30" stroke-linecap="round"/>
+
+    <!-- Central Microchip Gold Accent Node -->
+    <rect x="160" y="145" width="30" height="30" rx="6" fill="#f59e0b" stroke="#ffffff" stroke-width="3"/>
+  </g>
+
+  <text x="256" y="442" font-family="Segoe UI, sans-serif" font-weight="700" font-size="20" fill="#93c5fd" letter-spacing="6" text-anchor="middle">SK · PASS</text>
+</svg>
+</body>
+</html>

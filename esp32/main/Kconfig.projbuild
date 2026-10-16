@@ -1,0 +1,40 @@
+menu "PN7150 SKPass"
+
+config SKPASS_PLAYER
+    int "SKPass player number"
+    range 1 2
+    default 1
+    help
+        Selects the reference serial string CARDIOP1 or CARDIOP2.
+
+config SKPASS_SUPPRESS_MS
+    int "SKPass duplicate suppression time (ms)"
+    range 0 60000
+    default 3000
+    help
+        Global minimum interval between successful SKPass HID reports.
+
+config SKPASS_ENABLE_CDC
+    bool "Enable compatibility CDC alongside CardIO + SKPass data HID"
+    default y
+    select TINYUSB_CDC_ENABLED
+    help
+        Disable to remove the compatibility serial interface.
+        CardIO stays at interface zero; the SKPass data HID is always enabled.
+
+config SKPASS_FELICA_FULL_SCAN
+    bool "Read-only FeliCa service/block experiment (slower)"
+    default y
+    help
+        Probe all four service byte pairs across blocks 00..0D and 80..88.
+        UART, data HID and optional CDC report raw status values.
+        Disable after confirming your card; blocks 82 and 00 are still probed.
+
+config SKPASS_MIFARE_KEY_A
+    string "MIFARE sector 0 Key A (12 hex characters)"
+    default "574343467632"
+    help
+        Community WCCFv2 sample key; real cards may require a different key.
+        Uses PN7150 embedded-key authentication, never writes card data.
+
+endmenu

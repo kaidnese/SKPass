@@ -1,0 +1,4 @@
+#pragma once
+#define CONFIG_SKPASS_ENABLE_CDC 1
+#define CONFIG_SKPASS_SUPPRESS_MS 3000
+#define CONFIG_IDF_TARGET "esp32s3"
