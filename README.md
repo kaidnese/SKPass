@@ -4,10 +4,14 @@
 
 当前组件版本：上位机 **v1.0**、固件 **1.0.0**、AimeIO 接口 **1.0**（统一发行版本 v1.0；固件使用三段式 1.0.0）。
 
-## 硬件部分
-详见 [立创开源硬件工程](https://oshwhub.com/kaidnses/project_rqfspswk)
+## 硬件与外壳
 
-**注意：由于缺乏专业射频测试设备，无法保证天线最佳匹配性能。实测读取官方 Aime 卡在空气中约有 5cm 感应距离，但若是兼容卡 / Classic 卡则需要贴近天线才能读取，且有一定概率读取失败。**
+* **硬件工程**：详见 [立创开源硬件工程](https://oshwhub.com/kaidnses/project_rqfspswk)
+* **天线性能说明**：由于缺乏专业射频测试设备，无法保证天线最佳匹配性能。实测读取官方 Aime 卡在空气中约有 5cm 感应距离，但若是兼容卡 / Classic 卡则需要贴近天线才能读取，且有一定概率读取失败。
+* **外壳与 3D 打印**：项目在 [`enclosure/`](enclosure/) 目录提供了完整的 3D 打印外壳（包含 SolidWorks 工程、STEP 模型与 STL），发行包在 [`releases/v1.0/enclosure/`](releases/v1.0/enclosure/README.md) 中提供直接切片打印的 STL 文件。提供两种外壳方案：
+  * **全封闭**：机身全包裹保护，外观一体美观；但由于外壳壁厚增加了间距，**刷 Classic 卡（M1卡 / 兼容卡 / 自制 CUID 卡）效果不佳**。
+  * **半封闭**：**露出 PCB 的背面，可以贴着天线背面刷**，显著改善 Classic 兼容卡与自制卡的感应灵敏度与识别率。
+
 ## 这是什么？
 
 一款由 **ESP32-S3** 和 **PN7150** 组成的多功能 USB NFC 刷卡器与开发工作台：
@@ -39,7 +43,7 @@
 
 ## 文件结构
 
-项目包含固件、上位机、游戏 DLL、测试工具、技术文档和发行文件。下面列出各文件夹的内容与用途。
+项目包含固件、上位机、游戏 DLL、测试工具、外壳 3D 模型、技术文档和发行文件。下面列出各文件夹的内容与用途。
 
 ```text
 SKPass/
@@ -48,6 +52,7 @@ SKPass/
 ├─ aimeio/                   游戏端 AimeIO DLL 源码，支持 x86 / x64
 ├─ shared/                   上位机与 AimeIO 共用的 Windows HID 通讯层
 ├─ host-test/                Python CardIO USB HID 测试工具
+├─ enclosure/                3D 打印外壳模型（全封闭/半封闭，含 SLDASM、STEP 与 STL）
 ├─ docs/                     详细实现、协议、排障与验证记录
 ├─ scripts/                  构建、打包和固件导出脚本
 └─ releases/                 编译好的发行文件
@@ -58,6 +63,7 @@ SKPass/
       ├─ aimeio/
       │  ├─ x86/             32 位 aimeio_skpass.dll
       │  └─ x64/             64 位 aimeio_skpass.dll
+      ├─ enclosure/          3D 打印外壳 STL 模型（全封闭与半封闭方案）
       ├─ SHA256SUMS.txt      发布二进制校验和
       ├─ VERIFICATION.md     发行构建验证记录
       └─ LICENSE.*           捆绑组件许可证文本
@@ -70,9 +76,10 @@ SKPass/
 | [aimeio](aimeio/README.md) | 游戏端 DLL 源码，通过数据 HID（旧固件回退 CDC）读取实体卡，通过 JSON 和按键呈现虚拟卡 | 配置游戏刷卡或编译 x86/x64 DLL |
 | [shared](shared/README.md) | Windows HID 枚举、独占连接、异步读写与会话标识；不依赖第三方 HIDAPI DLL | 修改或排查电脑端 USB 通讯 |
 | [host-test](host-test/README.md) | Python HID 监视器与依赖清单，只检查 CardIO 标识报文 | 检查 USB HID 是否正常 |
+| [enclosure](enclosure/) | 3D 打印外壳模型（全封闭与半封闭方案，含 SolidWorks 零件/装配体、STEP 交换模型与 STL） | 3D 打印外壳或修改外壳结构 |
 | [docs](docs/esp32-implementation.md) | 固件详细实现、卡号解析、写卡/更新协议、历史排障与验证说明 | 深入了解实现或定位问题 |
 | scripts | PowerShell 脚本：构建固件、上位机与两种位数的 DLL，打包 EXE、导出固件 | 从源码生成发行文件 |
-| [releases](releases/v1.0/README.md) | 按版本保存的 BIN、EXE、两份 DLL、首次烧录辅助文件及校验清单 | 直接使用已编译的软件和固件 |
+| [releases](releases/v1.0/README.md) | 按版本保存的 BIN、EXE、两份 DLL、外壳 STL、首次烧录辅助文件及校验清单 | 直接使用已编译的软件、固件和外壳 STL |
 
 **直接使用请看 `releases/v1.0/`；开发固件进入 `esp32/`，开发上位机进入 `desktop/`，游戏配置与 DLL 说明看 `aimeio/`。**
 

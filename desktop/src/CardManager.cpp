@@ -71,7 +71,12 @@ CardManager::CardManager(QWidget *parent):QWidget(parent) {
     auto inputHint=new QLabel(QStringLiteral("已有实体卡：直接粘贴完整20位卡号。创建虚拟卡：输入8位 Serial 或随机生成，再保存并启用。Serial 不是 UID；生成号码不代表官方注册。"));inputHint->setWordWrap(true);inputHint->setProperty("role","muted");inputLayout->addWidget(inputHint);layout->addWidget(inputGroup);
     connect(serialInput,&QLineEdit::textChanged,this,[generate](const QString &s){generate->setEnabled(QRegularExpression("^[0-9]{8}$").match(s).hasMatch());});
     connect(generate,&QPushButton::clicked,this,[this,serialInput]{manual->setText(AimeCode::fromSerial(serialInput->text()));});
-    layout->addWidget(new QLabel(QStringLiteral("已保存卡片（双击备注可编辑，点击保存备注写入JSON）")));
+    auto savedHeader=new QHBoxLayout;
+    auto savedHint=new QLabel(QStringLiteral("已保存卡片（双击备注可编辑，点击保存备注写入JSON）"));savedHint->setWordWrap(true);
+    deleteSaved=new QPushButton(QStringLiteral("删除选中卡片"));deleteSaved->setObjectName("deleteSavedCard");deleteSaved->setEnabled(false);
+    deleteSaved->setToolTip(QStringLiteral("删除选中虚拟卡及备注，并立即同步当前 JSON 文件"));
+    deleteSaved->setStyleSheet("QPushButton{color:#b91c1c;border:1px solid #fecaca;background:#fff7f7;}QPushButton:hover{background:#fee2e2;}QPushButton:disabled{color:#94a3b8;border:1px solid #e2e8f0;background:#f8fafc;}");
+    savedHeader->addWidget(savedHint,1);savedHeader->addWidget(deleteSaved);layout->addLayout(savedHeader);
     savedTable=new QTableWidget(0,3);savedTable->setHorizontalHeaderLabels({QStringLiteral("状态"),QStringLiteral("Access code"),QStringLiteral("备注 / 持卡人")});
     savedTable->setObjectName("savedCards");
     savedTable->setStyleSheet("QTableWidget::item:selected{border:1px solid #2563eb;background:transparent;}");
@@ -99,6 +104,8 @@ CardManager::CardManager(QWidget *parent):QWidget(parent) {
     });
     connect(enable,&QPushButton::clicked,this,[this]{int row=savedTable->currentRow();if(row<0)return;auto old=active;active=savedTable->item(row,1)->text();if(!persist())active=old;refresh();});
     connect(saveNotes,&QPushButton::clicked,this,[this]{persist();});
+    connect(deleteSaved,&QPushButton::clicked,this,&CardManager::deleteSelectedCard);
+    connect(savedTable,&QTableWidget::itemSelectionChanged,this,[this]{deleteSaved->setEnabled(loadValid && !savedTable->selectionModel()->selectedRows().isEmpty());});
     connect(savedTable,&QTableWidget::itemChanged,this,[this](QTableWidgetItem *item){if(item->column()==2){notes.insert(savedTable->item(item->row(),1)->text(),item->text());saveNoticeTimer->stop();saveStatus->show();saveStatus->setStyleSheet("color:#b15a00;");saveStatus->setText(QStringLiteral("备注已修改，点击保存备注写入JSON。"));}});
     connect(disable,&QPushButton::clicked,this,[this]{auto old=active;active.clear();if(!persist())active=old;refresh();});
     connect(keyButton,&QPushButton::clicked,this,[this]{CardKeyDialog dialog(this,keyVk);if(dialog.exec()!=QDialog::Accepted)return;auto old=keyVk;keyVk=dialog.chosen;if(!persist())keyVk=old;refresh();});
@@ -118,6 +125,7 @@ void CardManager::refresh() {
     status->setStyleSheet(active.isEmpty()?"color:#b91c1c;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px;font-weight:600;":"color:#166534;background:#dcfce7;border:1px solid #86efac;border-radius:8px;padding:12px;font-weight:600;");
     status->setText(active.isEmpty()?QStringLiteral("未启用任何虚拟卡：AimeIO 无法通过按键刷入虚拟卡。请保存卡号并点击“启用选中虚拟卡”。"):
         QStringLiteral("✓ 已启用：%1\n游戏内按住 %2 刷卡，松开移卡；实体卡优先。").arg(active,cardKeyName(keyVk)));
+    deleteSaved->setEnabled(loadValid && !savedTable->selectionModel()->selectedRows().isEmpty());
 }
 void CardManager::load() {
     cards.clear();notes.clear();active.clear();saveNoticeTimer->stop();saveStatus->clear();saveStatus->hide();loadValid=true;keyVk=13;
@@ -149,6 +157,28 @@ void CardManager::saveNumber(const QString &s) {
 void CardManager::saveNumbers(const QStringList &numbers) {
     for(const auto &s:numbers){QString error;if(!valid(s,&error)){QMessageBox::warning(this,QStringLiteral("卡号检查失败"),s+"\n"+error);return;}}
     auto old=cards;for(const auto &s:numbers)if(!cards.contains(s))cards<<s;if(!persist()){cards=old;refresh();saveNoticeTimer->stop();saveStatus->show();saveStatus->setStyleSheet("color:#c62828;");saveStatus->setText(QStringLiteral("保存失败，请检查文件路径和权限。"));}
+}
+void CardManager::deleteSelectedCard() {
+    const auto selection=savedTable->selectionModel()->selectedRows();
+    if(!loadValid || selection.isEmpty())return;
+    const int row=selection.first().row();
+    const auto code=savedTable->item(row,1)->text();
+    CardDeleteDialog dialog(this,code,notes.value(code),path,active==code);
+    if(dialog.exec()!=QDialog::Accepted)return;
+
+    const auto previousCards=cards;
+    const auto previousNotes=notes;
+    const auto previousActive=active;
+    cards.removeAll(code);notes.remove(code);
+    if(active==code)active.clear();
+    if(!persist()) {
+        cards=previousCards;notes=previousNotes;active=previousActive;refresh();
+        saveNoticeTimer->stop();saveStatus->setStyleSheet("color:#c62828;");
+        saveStatus->setText(QStringLiteral("删除失败：JSON 未更新，卡片和启用状态已保留。请检查文件路径和权限。"));saveStatus->show();return;
+    }
+    if(savedTable->rowCount()>0)savedTable->selectRow(qMin(row,savedTable->rowCount()-1));
+    saveStatus->setText(QStringLiteral("删除成功，已同步 JSON；剩余 %1 张卡。%2").arg(cards.size()).arg(
+        previousActive==code?QStringLiteral("已停用虚拟卡。"):QString()));
 }
 void CardManager::validateInput(const QString &input) {
     const auto s=normalizedCode(input);

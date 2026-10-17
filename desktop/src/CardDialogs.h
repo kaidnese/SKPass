@@ -61,6 +61,30 @@ public:
     }
 };
 
+class CardDeleteDialog : public QDialog {
+public:
+    CardDeleteDialog(QWidget *parent,const QString &code,const QString &note,const QString &path,bool active):QDialog(parent) {
+        setObjectName("deleteVirtualCardDialog");
+        setWindowTitle(QStringLiteral("删除虚拟卡"));
+        auto layout=cardDialogLayout(this,QStringLiteral("−"),QStringLiteral("删除这张虚拟卡？"),
+            QStringLiteral("确认后，将立即从已保存卡片和当前 JSON 文件中删除此卡及其备注。"));
+        auto card=new QLabel(code+(note.isEmpty()?QString():"\n"+note));card->setTextFormat(Qt::PlainText);card->setWordWrap(true);
+        card->setTextInteractionFlags(Qt::TextSelectableByMouse);
+        card->setStyleSheet("background:#f8fafc;color:#17263c;border-radius:8px;padding:12px;font-size:15px;");layout->addWidget(card);
+        if(active) {
+            auto warning=new QLabel(QStringLiteral("这张卡当前已启用。删除后将停用虚拟刷卡，请重新选择并启用其他卡片。"));
+            warning->setWordWrap(true);warning->setStyleSheet("background:#fef2f2;color:#b91c1c;border-radius:8px;padding:12px;");layout->addWidget(warning);
+        }
+        auto file=new QLabel(path);file->setTextFormat(Qt::PlainText);file->setWordWrap(true);file->setStyleSheet("color:#52647a;font-size:12px;");layout->addWidget(file);
+        auto actions=new QHBoxLayout;auto cancel=new QPushButton(QStringLiteral("取消"));cancel->setDefault(true);
+        auto remove=new QPushButton(QStringLiteral("确认删除"));remove->setObjectName("confirmDeleteVirtualCard");
+        remove->setStyleSheet("QPushButton{background:#b91c1c;color:white;border:1px solid #b91c1c;}QPushButton:hover{background:#991b1b;}");
+        QObject::connect(cancel,&QPushButton::clicked,this,&QDialog::reject);
+        QObject::connect(remove,&QPushButton::clicked,this,&QDialog::accept);
+        actions->addWidget(cancel);actions->addWidget(remove);layout->addLayout(actions);
+    }
+};
+
 class CardKeyDialog : public QDialog {
 public:
     unsigned chosen=0;

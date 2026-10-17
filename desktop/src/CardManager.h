@@ -23,6 +23,7 @@ private:
     QList<QTableWidget*> historyTables;
     QSet<QString> checkedHistory;
     QTableWidget *savedTable;
+    QPushButton *deleteSaved;
     QLineEdit *manual;
     QPushButton *saveManual;
     QTimer *saveNoticeTimer;
@@ -38,6 +39,7 @@ private:
     static bool valid(const QString &code,QString *error);
     void validateInput(const QString &text);
     void saveNumbers(const QStringList &numbers);
+    void deleteSelectedCard();
     void refreshHistory();
     void chooseExportDirectory();
 };
